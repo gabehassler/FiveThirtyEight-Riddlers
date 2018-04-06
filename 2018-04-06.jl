@@ -27,6 +27,8 @@ function get_teams_list(teams::Array{String, 2})
     return list
 end
 
+
+#THIS FUNCTION ACTUALLY FINDS THE TRANSITIVE CHAMPIONS
 function find_champions(team::String, teams::Array{String, 2}, champions::Array{String, 1})
     games_lost = findin(teams[:, 2], [team]) #finds the indices for the games the team lost
     new_champs = teams[:, 1][games_lost] #gets the team names of the winners of those games
