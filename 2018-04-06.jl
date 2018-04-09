@@ -6,19 +6,14 @@ function parse_games()
     lines = readlines(file)
     close(file)
     n = length(lines)
-    dates = Array{Date}(n)
     teams = Array{String}(n, 2)
     for i = 1:n
         line = lines[i]
-        year = parse(line[1:4])
-        month = parse(line[6:7])
-        day = parse(line[9:10])
         team1 = strip(line[13:36])
         team2 = strip(line[42:65])
-        dates[i] = Date(year, month, day)
         teams[i, 1:2] = [team1, team2]
     end
-    save("ParsedNCAA.jld", "dates", dates, "teams", teams)
+    return teams
 end
 
 function get_teams_list(teams::Array{String, 2})
@@ -42,10 +37,7 @@ function find_champions(team::String, teams::Array{String, 2}, champions::Array{
 end
 
 println("Parsing")
-parse_games()
-d = load("ParsedNCAA.jld")
-date = d["dates"]
-teams = d["teams"]
+teams = parse_games()
 teams_list = get_teams_list(teams)
 champions = ["Villanova"]
 champions = find_champions("Villanova", teams, champions)
